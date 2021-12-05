@@ -28,7 +28,7 @@ def mark(n):
 def find_winner():
     for(i, j) in product(range(len(grids)), range(5)):
         if (all(m for m in marks[i][j]) or 
-            all([marks[i][k][j] for k in range(5)])):
+            all(marks[i][k][j] for k in range(5))):
             return i
 
 def find_score(winner, number):
