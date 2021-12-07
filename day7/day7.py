@@ -1,24 +1,19 @@
 import sys
-from itertools import product
-from collections import defaultdict
+from functools import reduce
 
 crabs = list(map(lambda x: int(x), sys.stdin.readline().split(",")))
+crabs.sort()
+low, high = crabs[0], crabs[-1]
 
-def part1():
-    cost = [0] * len(crabs)
-    for (i,j) in product(range(len(crabs)), range(len(crabs))):    
-        cost[i] = cost[i] + abs(crabs[i] - crabs[j])
+def print_min_cost(cost_fn):
+    cost = [reduce(lambda cost, x: cost + cost_fn(abs(x-i)), crabs, 0) for i in range(low, high+1)]
     print(min(cost))
 
+def part1():
+    print_min_cost(lambda x: x)    
+
 def part2():
-    crabs.sort()
-    low = crabs[0]
-    high = crabs[-1]
-    cost = defaultdict(lambda:0)
-    for (i,j) in product(range(low, high+1), range(len(crabs))):
-        n = abs(crabs[j] - i)
-        cost[i] = cost[i] + (n * (n+1))//2
-    print(min(cost.values()))
+    print_min_cost(lambda x: x * (x + 1) // 2)
 
 part1()
 part2()
