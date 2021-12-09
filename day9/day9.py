@@ -5,7 +5,7 @@ from functools import reduce
 
 grid = [[int(c) for c in line.strip()] for line in sys.stdin]
 
-def valid_coords(loc):
+def valid_neighbors(loc):
     dirs = [(-1, 0), (1, 0), (0, 1), (0, -1)]
     x, y = loc
     for (dx, dy) in dirs:
@@ -21,7 +21,7 @@ def bfs(loc):
     while not q.empty():
         x, y = q.get()
         val = grid[x][y]
-        for (nx, ny) in valid_coords((x,y)):
+        for (nx, ny) in valid_neighbors((x,y)):
             if (nx, ny) in v:
                 continue
             adj = grid[nx][ny]
@@ -36,7 +36,7 @@ basins = []
 for (x,y) in product(range(len(grid)), range(len(grid[0]))):
     val = grid[x][y]
     min = True
-    for (nx, ny) in valid_coords((x,y)):
+    for (nx, ny) in valid_neighbors((x,y)):
         adj = grid[nx][ny]
         if val >= adj:
             min = False
